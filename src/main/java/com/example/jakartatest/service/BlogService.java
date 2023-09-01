@@ -19,6 +19,9 @@ public class BlogService {
 	
 	@Autowired
 	private BlogRepository blogRepository;
+	
+	@Autowired
+	private ModeService modeService;
 
 	public CommonResult getBlog(int id) {
 		try {
@@ -67,13 +70,14 @@ public class BlogService {
 		}
 	}
 
+	// test
 	public CommonResult updateBlog(TBlog tblog) {
 		try {
-			TBlog old = blogRepository.findById(tblog.getId()).get();
+			TBlog old = modeService.getOldBlog(tblog);	
 			old.setTitle(tblog.getTitle());
 			old.setContent(tblog.getContent());
 			old.setAuthor(tblog.getAuthor());
-			old.setUpdatedTime(new Date());			
+			old.setUpdatedTime(new Date());
 			blogRepository.save(old);
 			return CommonResult.build(ResponseCode.SUCCESS, "Blog updated successfully!");
 		} catch (Exception e) {
