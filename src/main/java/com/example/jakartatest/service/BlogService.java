@@ -43,17 +43,30 @@ public class BlogService {
 		}
 	}
 
+	// test
 	public CommonResult getTitlesByAuthors() {
 		try {		
-			ArrayList<String> authors = new ArrayList<>();
-			authors.add("Liker");
-			authors.add("Steven");
+			ArrayList<String> authors = addAuthors();
 			ArrayList<String> titles = blogRepository.getTitlesByAuthors(authors);
 			return CommonResult.build(ResponseCode.SUCCESS, "Get titles by authors Successfully!", titles.toString());
 		} catch (Exception e) {
 			log.error("Fail to get titles, error:", e);
 			return CommonResult.build(ResponseCode.FAIL, "Fail to get titles!");
 		}
+	}
+
+	/**
+	 * @MethodName: addAuthors
+	 * @Description: TODO
+	 * @Author Liker
+	 * @return ArrayList<String>
+	 * @Date 2023-09-01 11:15:16
+	 */
+	public ArrayList<String> addAuthors() {
+		ArrayList<String> authors = new ArrayList<>();
+		authors.add("Liker");
+		authors.add("Steven");
+		return authors;
 	}
 	
 	public CommonResult newBlog(TBlog tblog) {
@@ -78,8 +91,8 @@ public class BlogService {
 			old.setContent(tblog.getContent());
 			old.setAuthor(tblog.getAuthor());
 			old.setUpdatedTime(new Date());
-			blogRepository.save(old);
-			return CommonResult.build(ResponseCode.SUCCESS, "Blog updated successfully!");
+			TBlog savedTBlog = blogRepository.save(old);
+			return CommonResult.build(ResponseCode.SUCCESS, "Blog updated successfully!", savedTBlog.toString());
 		} catch (Exception e) {
 			log.error("Fail to update blog, error:", e);
 			return CommonResult.build(ResponseCode.FAIL, "Fail to update blog!");
