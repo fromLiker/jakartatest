@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.jakartatest.entity.TBlog;
@@ -129,4 +130,16 @@ class BlogMockTest {
         }
     }
     
+    @Autowired
+    private BlogService tblogService;
+    
+    @Test
+    void saveBlogTest() {
+    	TBlog tBlog = new TBlog();
+    	tBlog.setTitle("Redis应用");
+    	tBlog.setAuthor("Liker");
+    	tBlog.setContent("Redis应用详情");
+    	// 保存到实际数据库
+        assertEquals(200, tblogService.newBlog(tBlog).getStatus());
+    }
 }
